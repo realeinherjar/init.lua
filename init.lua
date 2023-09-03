@@ -697,7 +697,6 @@ require("lazy").setup({
   {
     "mbbill/undotree",
     evenvt = "VeryLazy",
-    config = true,
     keys = { { "<leader>u", "<CMD>UndotreeToggle<CR>", desc = "[U]ndo Tree" } },
   },
   -- Git related plugins
