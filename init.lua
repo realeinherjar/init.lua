@@ -292,6 +292,7 @@ require("lazy").setup({
       "saadparwaiz1/cmp_luasnip", -- Snippets source for nvim-cmp
       "L3MON4D3/LuaSnip",         -- Snippets plugin
       "folke/neodev.nvim",        -- Neovim development Lua utils
+      "petertriho/cmp-git",       -- nvim-cmp source for git
       -- Copilot
       {
         "zbirenbaum/copilot-cmp",
@@ -505,6 +506,21 @@ require("lazy").setup({
         'confirm_done',
         cmp_autopairs.on_confirm_done()
       )
+      -- Set configuration for specific filetype.
+      cmp.setup.filetype('gitcommit', {
+        sources = cmp.config.sources({
+          { name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
+        }, {
+          { name = 'buffer' },
+        })
+      })
+      -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+      cmp.setup.cmdline({ '/', '?' }, {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = 'buffer' }
+        }
+      })
       -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
       lsp.pyright.setup({ capabilities = capabilities })  -- requires pyright to be installed
       lsp.tsserver.setup({ capabilities = capabilities }) -- requires typescript-language-server to be installed
