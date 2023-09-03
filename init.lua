@@ -1,4 +1,3 @@
--- Needs brew install shellcheck typescript-language-server rust-analyzer vscode-langservers-extracted prettierd shellharden markdownlint-cli2 tailwindcss-language-server pyright luacheck ruff black shfmt eslint luacheck
 -------------------------------------------------------------------------------
 -- Options
 -------------------------------------------------------------------------------
@@ -401,16 +400,22 @@ require("lazy").setup({
             print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
           end, { desc = "[L]ist Folders" })
           -- Format
-          vim.keymap.set("n", "<leader>f", function()
+          vim.keymap.set("n", "<leader>F", function()
               vim.lsp.buf.format({ async = true })
             end,
             { desc = "[F]ormat current buffer with LSP" })
-          -- Autoformat on save
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            callback = function()
-              vim.lsp.buf.format({ async = false })
-            end,
-          })
+          vim.keymap.set("n", "<leader>f", "<CMD>Format<CR>",
+            { desc = "[F]ormat current buffer with Formatter" })
+          -- Autoformat on save (LSP)
+          -- vim.api.nvim_create_autocmd("BufWritePre", {
+          --   callback = function()
+          --     vim.lsp.buf.format({ async = false })
+          --   end,
+          -- })
+          -- Autoformat on save (Formatter)
+          -- vim.api.nvim_create_autocmd("BufWritePre", {
+          --   command = "FormatWrite",
+          -- })
         end,
       })
       -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
@@ -563,58 +568,65 @@ require("lazy").setup({
   },
   -- LSP Formatters and Linters
   -- null-ls is archived
-  -- {
-  -- 	"mhartington/formatter.nvim",
-  -- 	event = { "BufReadPre", "BufNewFile" },
-  -- 	config = function()
-  -- 		local formatter = require("formatter")
-  -- 		formatter.setup({
-  -- 			filetype = {
-  -- 				lua = {
-  -- 					require("formatter.filetypes.lua").stylua, -- requires stylua to be installed
-  -- 				},
-  -- 				rust = {
-  -- 					require("formatter.filetypes.rust").rustfmt, -- requires rustfmt to be installed
-  -- 				},
-  -- 				python = {
-  -- 					require("formatter.filetypes.python").black, -- requires black to be installed
-  -- 				},
-  -- 				sh = {
-  -- 					require("formatter.filetypes.sh").shfmt, -- requires shfmt to be installed
-  -- 				},
-  -- 				fish = {
-  -- 					require("formatter.filetypes.fish").fishindent, -- requires fish to be installed
-  -- 				},
-  -- 				html = {
-  -- 					require("formatter.filetypes.html").prettierd, -- requires prettierd to be installed
-  -- 				},
-  -- 				css = {
-  -- 					require("formatter.filetypes.css").prettierd, -- requires prettierd to be installed
-  -- 				},
-  -- 				markdown = {
-  -- 					require("formatter.filetypes.markdown").prettierd, -- requires prettierd to be installed
-  -- 				},
-  -- 			},
-  -- 		})
-  -- 	end,
-  -- },
-  -- {
-  -- 	"mfussenegger/nvim-lint",
-  -- 	config = function()
-  -- 		local lint = require("lint")
-  -- 		lint.linters_by_ft = {
-  -- 			python = { "ruff" }, -- requires ruff to be installed
-  -- 			lua = { "luacheck" }, -- requires luacheck to be installed
-  -- 			sh = { "shellcheck" }, -- requires shellcheck to be installed
-  -- 			markdown = { "markdownlint" }, -- requires markdownlint to be installed
-  -- 		}
-  -- 		vim.api.nvim_create_autocmd({ "InsertLeave", "BufWritePost" }, {
-  -- 			callback = function()
-  -- 				lint.try_lint()
-  -- 			end,
-  -- 		})
-  -- 	end,
-  -- },
+  {
+    "mhartington/formatter.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      local formatter = require("formatter")
+      formatter.setup({
+        filetype = {
+          lua = {
+            require('formatter.filetypes.lua').stylua, -- requires stylua to be installed
+          },
+          rust = {
+            require("formatter.filetypes.rust").rustfmt, -- requires rustfmt to be installed
+          },
+          python = {
+            require("formatter.filetypes.python").black, -- requires black to be installed
+          },
+          sh = {
+            require("formatter.filetypes.sh").shfmt, -- requires shfmt to be installed
+          },
+          fish = {
+            require("formatter.filetypes.fish").fishindent, -- requires fish to be installed
+          },
+          html = {
+            require("formatter.filetypes.html").prettierd, -- requires prettierd to be installed
+          },
+          css = {
+            require("formatter.filetypes.css").prettierd, -- requires prettierd to be installed
+          },
+          markdown = {
+            require("formatter.filetypes.markdown").prettierd, -- requires prettierd to be installed
+          },
+          ["*"] = {
+            require("formatter.filetypes.any").remove_trailing_whitespace
+          }
+        },
+      })
+    end,
+  },
+  {
+    "mfussenegger/nvim-lint",
+    config = function()
+      local lint = require("lint")
+      lint.linters_by_ft = {
+        python = { "ruff" },            -- requires ruff to be installed
+        lua = { "luacheck" },           -- requires luacheck to be installed
+        sh = { "shellcheck" },          -- requires shellcheck to be installed
+        markdown = { "markdownlint" },  -- requires markdownlint to be installed
+        javascript = { "eslint" },      -- requires eslint to be installed
+        javascriptreact = { "eslint" }, -- requires eslint to be installe
+        typescript = { "eslint" },      -- requires eslint to be installed
+        typescriptreact = { "eslint" }, -- requires eslint to be installed
+      }
+      vim.api.nvim_create_autocmd({ "InsertLeave", "BufWritePost" }, {
+        callback = function()
+          lint.try_lint()
+        end,
+      })
+    end,
+  },
   {
     "nvim-treesitter/nvim-treesitter",
     event = { "BufReadPost", "BufNewFile" },
