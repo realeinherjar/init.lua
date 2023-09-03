@@ -848,6 +848,14 @@ require("lazy").setup({
     version = "*",
     config = true,
   },
+  {
+    "j-hui/fidget.nvim",
+    tag = "legacy",
+    event = "LspAttach",
+    opts = {
+      -- options
+    },
+  }
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
