@@ -62,6 +62,9 @@ vim.opt.smartcase = true
 vim.opt.updatetime = 250
 vim.wo.signcolumn = "yes"
 
+-- color column
+vim.opt.colorcolumn = "80"
+
 -- Window splitting
 vim.opt.splitbelow = true
 vim.opt.splitright = true
@@ -295,21 +298,23 @@ require("lazy").setup({
       "petertriho/cmp-git",       -- nvim-cmp source for git
       -- Copilot
       {
-        "zbirenbaum/copilot-cmp",
-        dependencies = {
-          "zbirenbaum/copilot.lua",
-          cmd = "Copilot",
-          build = ":Copilot auth",
-          opts = {
-            suggestion = { enabled = false },
-            panel = { enabled = false },
-            filetypes = {
-              markdown = true,
-              help = true,
-            },
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
+        build = ":Copilot auth",
+        opts = {
+          suggestion = { enabled = false },
+          panel = { enabled = false },
+          filetypes = {
+            markdown = true,
+            help = true,
           },
         },
       },
+      {
+        "zbirenbaum/copilot-cmp",
+        dependencies = "copilot.lua",
+        config = true,
+      }
     },
     config = function()
       -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
@@ -485,7 +490,6 @@ require("lazy").setup({
           priority_weight = 2,
           comparators = {
             require("copilot_cmp.comparators").prioritize,
-
             -- Below is the default comparator list and order for nvim-cmp
             cmp.config.compare.offset,
             -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
@@ -501,24 +505,24 @@ require("lazy").setup({
         },
       })
       -- If you want insert `(` after select function or method item
-      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
       cmp.event:on(
-        'confirm_done',
+        "confirm_done",
         cmp_autopairs.on_confirm_done()
       )
       -- Set configuration for specific filetype.
-      cmp.setup.filetype('gitcommit', {
+      cmp.setup.filetype("gitcommit", {
         sources = cmp.config.sources({
-          { name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
+          { name = "git" },
         }, {
-          { name = 'buffer' },
+          { name = "buffer", group_index = 2 },
         })
       })
-      -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-      cmp.setup.cmdline({ '/', '?' }, {
+      -- Use buffer source for `/` and `?`
+      cmp.setup.cmdline({ "/", "?" }, {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
-          { name = 'buffer' }
+          { name = "buffer", group_index = 2 },
         }
       })
       -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
