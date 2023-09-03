@@ -89,10 +89,10 @@ vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = tr
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
 
 -- Resize window using <ctrl> arrow keys
-vim.keymap.set("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
-vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
-vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
-vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
+vim.keymap.set("n", "<C-Up>", "<CMD>resize +2<CR>", { desc = "Increase window height" })
+vim.keymap.set("n", "<C-Down>", "<CMD>resize -2<CR>", { desc = "Decrease window height" })
+vim.keymap.set("n", "<C-Left>", "<CMD>vertical resize -2<CR>", { desc = "Decrease window width" })
+vim.keymap.set("n", "<C-Right>", "<CMD>vertical resize +2<CR>", { desc = "Increase window width" })
 
 -- Better movement
 vim.keymap.set("n", "J", "mzJ`z")
@@ -110,7 +110,7 @@ vim.keymap.set("v", ">", ">gv")
 vim.keymap.set(
   "n",
   "<leader>R",
-  "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
+  "<CMD>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
   { desc = "[R]edraw / clear hlsearch / diff update" }
 )
 
@@ -146,15 +146,15 @@ vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 
-vim.api.nvim_create_autocmd('filetype', {
-  pattern = 'netrw',
-  desc = 'Better mappings for netrw',
+vim.api.nvim_create_autocmd("filetype", {
+  pattern = "netrw",
+  desc = "Better mappings for netrw",
   callback = function()
     -- edit new file
     vim.keymap.set("n", "n", "%", { remap = true, buffer = true })
     -- rename file
     vim.keymap.set("n", "r", "R", { remap = true, buffer = true })
-  end
+  end,
 })
 
 -------------------------------------------------------------------------------
@@ -184,7 +184,7 @@ vim.api.nvim_create_autocmd("BufRead", {
 -------------------------------------------------------------------------------
 -- Bootstrap Package Manager
 -------------------------------------------------------------------------------
-local lazypath = vim.fn.stdpath("data") .. "/lazy2/lazy.nvim"
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",
@@ -203,16 +203,16 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   {
     "folke/tokyonight.nvim", -- Set colorscheme to Gruvbox Theme
-    lazy = false,            -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000,         -- make sure to load this before all
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all
     config = function()
       vim.o.termguicolors = true
       vim.o.background = "dark"
       vim.cmd.colorscheme("tokyonight")
     end,
     keys = {
-      { "<leader>l", "<cmd>Lazy<cr>", desc = "[L]azy" },
-    }
+      { "<leader>l", "<CMD>Lazy<cr>", desc = "[L]azy" },
+    },
   },
   {
     "nvim-lualine/lualine.nvim", -- Fancier statusline
@@ -234,18 +234,18 @@ require("lazy").setup({
     branch = "0.1.x",
     dependencies = "nvim-lua/plenary.nvim",
     keys = {
-      { "<leader>?",       "<CMD>Telescope oldfiles<CR>", desc = "[?] Find recently opened files" },
-      { "<leader><space>", "<CMD>Telescope buffers<CR>",  desc = "[ ] Find existing buffers" },
+      { "<leader>?", "<CMD>Telescope oldfiles<CR>", desc = "[?] Find recently opened files" },
+      { "<leader><space>", "<CMD>Telescope buffers<CR>", desc = "[ ] Find existing buffers" },
       {
         "<leader>/",
         "<CMD>Telescope current_buffer_fuzzy_find<CR>",
         desc = "[/] Fuzzily search in current buffer]",
       },
 
-      { "<leader>sf", "<CMD>Telescope find_files<CR>",  desc = "[F]iles" },
-      { "<leader>sh", "<CMD>Telescope help_tags<CR>",   desc = "[H]elp" },
+      { "<leader>sf", "<CMD>Telescope find_files<CR>", desc = "[F]iles" },
+      { "<leader>sh", "<CMD>Telescope help_tags<CR>", desc = "[H]elp" },
       { "<leader>sw", "<CMD>Telescope grep_string<CR>", desc = "Current [W]ord" },
-      { "<leader>sg", "<CMD>Telescope live_grep<CR>",   desc = "[G]rep" },
+      { "<leader>sg", "<CMD>Telescope live_grep<CR>", desc = "[G]rep" },
       { "<leader>sd", "<CMD>Telescope diagnostics<CR>", desc = "[D]iagnostics" },
     },
     config = function()
@@ -286,15 +286,15 @@ require("lazy").setup({
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp",     -- LSP source for nvim-cmp
-      "hrsh7th/nvim-cmp",         -- Autocompletion plugin
-      "hrsh7th/cmp-buffer",       -- nvim-cmp source for buffer words
-      "hrsh7th/cmp-path",         -- nvim-cmp source for filesystem paths
-      "hrsh7th/cmp-nvim-lua",     -- nvim-cmp source for neovim Lua API
+      "hrsh7th/cmp-nvim-lsp", -- LSP source for nvim-cmp
+      "hrsh7th/nvim-cmp", -- Autocompletion plugin
+      "hrsh7th/cmp-buffer", -- nvim-cmp source for buffer words
+      "hrsh7th/cmp-path", -- nvim-cmp source for filesystem paths
+      "hrsh7th/cmp-nvim-lua", -- nvim-cmp source for neovim Lua API
       "saadparwaiz1/cmp_luasnip", -- Snippets source for nvim-cmp
-      "L3MON4D3/LuaSnip",         -- Snippets plugin
-      "folke/neodev.nvim",        -- Neovim development Lua utils
-      "petertriho/cmp-git",       -- nvim-cmp source for git
+      "L3MON4D3/LuaSnip", -- Snippets plugin
+      "folke/neodev.nvim", -- Neovim development Lua utils
+      "petertriho/cmp-git", -- nvim-cmp source for git
       -- Copilot
       {
         "zbirenbaum/copilot.lua",
@@ -313,7 +313,7 @@ require("lazy").setup({
         "zbirenbaum/copilot-cmp",
         dependencies = "copilot.lua",
         config = true,
-      }
+      },
     },
     config = function()
       -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
@@ -327,29 +327,19 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>k", vim.diagnostic.setloclist, { desc = "[D]iagnostics: Set" })
       -- Use LspAttach autocommand to only map the following keys
       -- after the language server attaches to the current buffer
-      vim.api.nvim_create_autocmd('LspAttach', {
-        group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("UserLspConfig", {}),
         callback = function(ev)
           -- Enable completion triggered by <c-x><c-o>
-          vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+          vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
           -- Buffer local mappings.
           -- See `:help vim.lsp.*` for documentation on any of the below functions
           -- Code Actions
           vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "[R]ename" })
-          vim.keymap.set(
-            "n",
-            "<leader>ca",
-            vim.lsp.buf.code_action,
-            { desc = "Code [A]ction" }
-          )
+          vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code [A]ction" })
           -- Definitions
           vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "[G]oto [D]efinition" })
-          vim.keymap.set(
-            "n",
-            "gi",
-            vim.lsp.buf.implementation,
-            { desc = "[G]oto [I]mplementation" }
-          )
+          vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "[G]oto [I]mplementation" })
           vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references)
           vim.keymap.set(
             "n",
@@ -365,47 +355,20 @@ require("lazy").setup({
           )
           -- See `:help K` for why this keymap
           vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover Documentation" })
-          vim.keymap.set(
-            "n",
-            "<C-k>",
-            vim.lsp.buf.signature_help,
-            { desc = "Signature Documentation" }
-          )
+          vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Signature Documentation" })
           -- Lesser used LSP functionality
-          vim.keymap.set(
-            "n",
-            "gD",
-            vim.lsp.buf.declaration,
-            { desc = "[G]oto [D]eclaration" }
-          )
-          vim.keymap.set(
-            "n",
-            "<leader>D",
-            vim.lsp.buf.type_definition,
-            { desc = "Type [D]efinition" }
-          )
-          vim.keymap.set(
-            "n",
-            "<leader>cwa",
-            vim.lsp.buf.add_workspace_folder,
-            { desc = "[A]dd Folder" }
-          )
-          vim.keymap.set(
-            "n",
-            "<leader>cwr",
-            vim.lsp.buf.remove_workspace_folder,
-            { desc = "[R]emove Folder" }
-          )
+          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "[G]oto [D]eclaration" })
+          vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, { desc = "Type [D]efinition" })
+          vim.keymap.set("n", "<leader>cwa", vim.lsp.buf.add_workspace_folder, { desc = "[A]dd Folder" })
+          vim.keymap.set("n", "<leader>cwr", vim.lsp.buf.remove_workspace_folder, { desc = "[R]emove Folder" })
           vim.keymap.set("n", "<leader>cwl", function()
             print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
           end, { desc = "[L]ist Folders" })
           -- Format
           vim.keymap.set("n", "<leader>F", function()
-              vim.lsp.buf.format({ async = true })
-            end,
-            { desc = "[F]ormat current buffer with LSP" })
-          vim.keymap.set("n", "<leader>f", "<CMD>Format<CR>",
-            { desc = "[F]ormat current buffer with Formatter" })
+            vim.lsp.buf.format({ async = true })
+          end, { desc = "[F]ormat current buffer with LSP" })
+          vim.keymap.set("n", "<leader>f", "<CMD>Format<CR>", { desc = "[F]ormat current buffer with Formatter" })
           -- Autoformat on save (LSP)
           -- vim.api.nvim_create_autocmd("BufWritePre", {
           --   callback = function()
@@ -413,9 +376,9 @@ require("lazy").setup({
           --   end,
           -- })
           -- Autoformat on save (Formatter)
-          -- vim.api.nvim_create_autocmd("BufWritePre", {
-          --   command = "FormatWrite",
-          -- })
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            command = "FormatWrite",
+          })
         end,
       })
       -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
@@ -433,8 +396,7 @@ require("lazy").setup({
           return false
         end
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-        return col ~= 0
-            and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
+        return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
       end
       cmp.setup({
         completion = {
@@ -447,18 +409,17 @@ require("lazy").setup({
         },
         enabled = function()
           -- disable completion in comments
-          local context = require 'cmp.config.context'
+          local context = require("cmp.config.context")
           -- keep command mode completion enabled when cursor is in a comment
-          if vim.api.nvim_get_mode().mode == 'c' then
+          if vim.api.nvim_get_mode().mode == "c" then
             return true
           else
-            return not context.in_treesitter_capture("comment")
-                and not context.in_syntax_group("Comment")
+            return not context.in_treesitter_capture("comment") and not context.in_syntax_group("Comment")
           end
         end,
         mapping = cmp.mapping.preset.insert({
           ["<C-u>"] = cmp.mapping.scroll_docs(-4), -- Up
-          ["<C-d>"] = cmp.mapping.scroll_docs(4),  -- Down
+          ["<C-d>"] = cmp.mapping.scroll_docs(4), -- Down
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<CR>"] = cmp.mapping.confirm({
             behavior = cmp.ConfirmBehavior.Replace,
@@ -473,7 +434,7 @@ require("lazy").setup({
             else
               fallback()
             end
-          end, { 'i', 's' }),
+          end, { "i", "s" }),
           ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
@@ -482,14 +443,14 @@ require("lazy").setup({
             else
               fallback()
             end
-          end, { 'i', 's' }),
+          end, { "i", "s" }),
         }),
         sources = {
-          { name = "copilot",  group_index = 2 },
+          { name = "copilot", group_index = 2 },
           { name = "nvim_lsp", group_index = 2 },
-          { name = "luasnip",  group_index = 2 },
+          { name = "luasnip", group_index = 2 },
           -- { name = "buffer", group_index = 2 },
-          { name = "path",     group_index = 2 },
+          { name = "path", group_index = 2 },
         },
         sorting = { -- copilot_cmp suggestion
           priority_weight = 2,
@@ -511,34 +472,31 @@ require("lazy").setup({
       })
       -- If you want insert `(` after select function or method item
       local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-      cmp.event:on(
-        "confirm_done",
-        cmp_autopairs.on_confirm_done()
-      )
+      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
       -- Set configuration for specific filetype.
       cmp.setup.filetype("gitcommit", {
         sources = cmp.config.sources({
           { name = "git" },
         }, {
           { name = "buffer", group_index = 2 },
-        })
+        }),
       })
       -- Use buffer source for `/` and `?`
       cmp.setup.cmdline({ "/", "?" }, {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
           { name = "buffer", group_index = 2 },
-        }
+        },
       })
       -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-      lsp.pyright.setup({ capabilities = capabilities })  -- requires pyright to be installed
+      lsp.pyright.setup({ capabilities = capabilities }) -- requires pyright to be installed
       lsp.tsserver.setup({ capabilities = capabilities }) -- requires typescript-language-server to be installed
-      lsp.bashls.setup({ capabilities = capabilities })   -- requires bash-language-server to be installed
-      lsp.html.setup({ capabilities = capabilities })     -- requires vscode-langservers-extracted to be installed
-      lsp.cssls.setup({ capabilities = capabilities })    -- requires vscode-langservers-extracted to be installed
-      lsp.jsonls.setup({ capabilities = capabilities })   -- requires vscode-langservers-extracted to be installed
-      lsp.eslint.setup({ capabilities = capabilities })   -- requires vscode-langservers-extracted to be installed
-      lsp.lua_ls.setup({                                  -- requires lua-language-server to be installed
+      lsp.bashls.setup({ capabilities = capabilities }) -- requires bash-language-server to be installed
+      lsp.html.setup({ capabilities = capabilities }) -- requires vscode-langservers-extracted to be installed
+      lsp.cssls.setup({ capabilities = capabilities }) -- requires vscode-langservers-extracted to be installed
+      lsp.jsonls.setup({ capabilities = capabilities }) -- requires vscode-langservers-extracted to be installed
+      lsp.eslint.setup({ capabilities = capabilities }) -- requires vscode-langservers-extracted to be installed
+      lsp.lua_ls.setup({ -- requires lua-language-server to be installed
         capabilities = capabilities,
         settings = {
           Lua = {
@@ -576,7 +534,7 @@ require("lazy").setup({
       formatter.setup({
         filetype = {
           lua = {
-            require('formatter.filetypes.lua').stylua, -- requires stylua to be installed
+            require("formatter.filetypes.lua").stylua, -- requires stylua to be installed
           },
           rust = {
             require("formatter.filetypes.rust").rustfmt, -- requires rustfmt to be installed
@@ -600,8 +558,8 @@ require("lazy").setup({
             require("formatter.filetypes.markdown").prettierd, -- requires prettierd to be installed
           },
           ["*"] = {
-            require("formatter.filetypes.any").remove_trailing_whitespace
-          }
+            require("formatter.filetypes.any").remove_trailing_whitespace,
+          },
         },
       })
     end,
@@ -610,14 +568,16 @@ require("lazy").setup({
     "mfussenegger/nvim-lint",
     config = function()
       local lint = require("lint")
+      local markdownlint = require("lint").linters.markdownlint
+      markdownlint.cmd = "markdownlint-cli2"
       lint.linters_by_ft = {
-        python = { "ruff" },            -- requires ruff to be installed
-        lua = { "luacheck" },           -- requires luacheck to be installed
-        sh = { "shellcheck" },          -- requires shellcheck to be installed
-        markdown = { "markdownlint" },  -- requires markdownlint to be installed
-        javascript = { "eslint" },      -- requires eslint to be installed
+        python = { "ruff" }, -- requires ruff to be installed
+        lua = { "luacheck" }, -- requires luacheck to be installed
+        sh = { "shellcheck" }, -- requires shellcheck to be installed
+        markdown = { "markdownlint" }, -- requires markdownlint to be installed
+        javascript = { "eslint" }, -- requires eslint to be installed
         javascriptreact = { "eslint" }, -- requires eslint to be installe
-        typescript = { "eslint" },      -- requires eslint to be installed
+        typescript = { "eslint" }, -- requires eslint to be installed
         typescriptreact = { "eslint" }, -- requires eslint to be installed
       }
       vim.api.nvim_create_autocmd({ "InsertLeave", "BufWritePost" }, {
@@ -666,8 +626,8 @@ require("lazy").setup({
           keymaps = {
             init_selection = "<C-space>",
             node_incremental = "<C-space>",
-            scope_incremental = "<C-S>",
-            node_decremental = "<C-bs>",
+            scope_incremental = "<C-space>",
+            node_decremental = "<M-space>",
           },
         },
         textobjects = {
@@ -712,10 +672,10 @@ require("lazy").setup({
         },
         extensions = {
           fzf = {
-            fuzzy = true,                   -- false will only do exact matching
+            fuzzy = true, -- false will only do exact matching
             override_generic_sorter = true, -- override the generic sorter
-            override_file_sorter = true,    -- override the file sorter
-            case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
+            override_file_sorter = true, -- override the file sorter
+            case_mode = "smart_case", -- or "ignore_case" or "respect_case"
             -- the default case_mode is "smart_case"
           },
         },
@@ -775,29 +735,43 @@ require("lazy").setup({
             return "<Ignore>"
           end, { expr = true, buffer = bufnr, desc = "Previous Hunk" })
           -- Actions
-          vim.keymap.set({ "n", "v" }, "<leader>hs", "<CMD>Gitsigns stage_hunk<CR>",
-            { buffer = bufnr, desc = "[S]tage" })
-          vim.keymap.set({ "n", "v" }, "<leader>hr", "<CMD>Gitsigns reset_hunk<CR>",
-            { buffer = bufnr, desc = "[R]eset" })
+          vim.keymap.set(
+            { "n", "v" },
+            "<leader>hs",
+            "<CMD>Gitsigns stage_hunk<CR>",
+            { buffer = bufnr, desc = "[S]tage" }
+          )
+          vim.keymap.set(
+            { "n", "v" },
+            "<leader>hr",
+            "<CMD>Gitsigns reset_hunk<CR>",
+            { buffer = bufnr, desc = "[R]eset" }
+          )
           vim.keymap.set("n", "<leader>hS", gs.stage_buffer, { buffer = bufnr, desc = "[S]tage File" })
           vim.keymap.set("n", "<leader>hu", gs.undo_stage_hunk, { buffer = bufnr, desc = "[U]ndo" })
           vim.keymap.set("n", "<leader>hR", gs.reset_buffer, { buffer = bufnr, desc = "[R]eset File" })
           vim.keymap.set("n", "<leader>hp", gs.preview_hunk, { buffer = bufnr, desc = "[P]review" })
           vim.keymap.set("n", "<leader>hb", function()
-              gs.blame_line({ full = true })
-            end,
-            { buffer = bufnr, desc = "[B]lame line" })
-          vim.keymap.set("n", "<leader>hB", gs.toggle_current_line_blame,
-            { buffer = bufnr, desc = "Toggle [B]lame Line" })
+            gs.blame_line({ full = true })
+          end, { buffer = bufnr, desc = "[B]lame line" })
+          vim.keymap.set(
+            "n",
+            "<leader>hB",
+            gs.toggle_current_line_blame,
+            { buffer = bufnr, desc = "Toggle [B]lame Line" }
+          )
           vim.keymap.set("n", "<leader>hd", gs.diffthis, { buffer = bufnr, desc = "[D]iff This" })
           vim.keymap.set("n", "<leader>hD", function()
-              gs.diffthis("~")
-            end,
-            { buffer = bufnr, desc = "[D]iff This ~" })
+            gs.diffthis("~")
+          end, { buffer = bufnr, desc = "[D]iff This ~" })
           vim.keymap.set("n", "<leader>ht", gs.toggle_deleted, { buffer = bufnr, desc = "[T]oggle Deleted" })
           -- Text object
-          vim.keymap.set({ "o", "x" }, "ih", "<CMD><C-U>Gitsigns select_hunk<CR>",
-            { buffer = bufnr, desc = "GitSigns Select Hunk" })
+          vim.keymap.set(
+            { "o", "x" },
+            "ih",
+            "<CMD><C-U>Gitsigns select_hunk<CR>",
+            { buffer = bufnr, desc = "GitSigns Select Hunk" }
+          )
         end,
       })
     end,
@@ -806,7 +780,7 @@ require("lazy").setup({
     "tpope/vim-fugitive",
     event = "VeryLazy",
     keys = {
-      { "<leader>gi", "<CMD>Git<CR>",                 desc = "[Gi]t" },
+      { "<leader>gi", "<CMD>Git<CR>", desc = "[Gi]t" },
       -- It allows me to easily set the branch I am pushing and any tracking
       { "<leader>gt", "<CMD>Git push -u origin <CR>", desc = "[G]it Push [T]agging" },
     },
@@ -816,7 +790,7 @@ require("lazy").setup({
     event = "VeryLazy",
   },
   -- Miscellaneous
-  "tpope/vim-sleuth",       -- Detect tabstop and shiftwidth automatically
+  "tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
   {
     "folke/which-key.nvim", -- popup with possible key bindings of the command you started typing
     event = "VeryLazy",
@@ -841,9 +815,9 @@ require("lazy").setup({
     end,
   },
   { "numToStr/Comment.nvim", config = true, event = "VeryLazy" }, -- 'gc' to comment visual regions/lines
-  { "windwp/nvim-autopairs", config = true },                     -- Autopair stuff like ({["'
+  { "windwp/nvim-autopairs", config = true }, -- Autopair stuff like ({["'
   {
-    "kylechui/nvim-surround",                                     -- Surround selections
+    "kylechui/nvim-surround", -- Surround selections
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     version = "*",
     config = true,
@@ -855,7 +829,7 @@ require("lazy").setup({
     opts = {
       -- options
     },
-  }
+  },
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
