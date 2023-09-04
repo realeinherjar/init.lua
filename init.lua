@@ -308,6 +308,19 @@ require("lazy").setup({
             help = true,
           },
         },
+        keys = {
+          {
+            "<leader>cp",
+            function()
+              if require("copilot.client").is_disabled() then
+                vim.cmd("Copilot enable")
+              else
+                vim.cmd("Copilot disable")
+              end
+            end,
+            desc = "Co[p]ilot Toggle",
+          },
+        },
       },
       {
         "zbirenbaum/copilot-cmp",
@@ -790,7 +803,12 @@ require("lazy").setup({
           -- Better commit remaps with no "enter" dialog
           vim.keymap.set("n", "cc", "<CMD>silent! Git commit --quiet<CR>", { silent = true, buffer = true })
           vim.keymap.set("n", "ca", "<CMD>silent! Git commit --quiet --amend<CR>", { silent = true, buffer = true })
-          vim.keymap.set("n", "ce", "<CMD>silent! Git commit --quiet --amend --no-edit<CR>", { silent = true, buffer = true })
+          vim.keymap.set(
+            "n",
+            "ce",
+            "<CMD>silent! Git commit --quiet --amend --no-edit<CR>",
+            { silent = true, buffer = true }
+          )
           -- Push and Pull
           vim.keymap.set("n", "p", "<CMD>silent! Git pull<CR>", { silent = true, buffer = true })
           vim.keymap.set("n", "P", "<CMD>silent! Git push<CR>", { silent = true, buffer = true })
