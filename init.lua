@@ -355,7 +355,7 @@ require("lazy").setup({
           )
           -- See `:help K` for why this keymap
           vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover Documentation" })
-          vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Signature Documentation" })
+          vim.keymap.set("n", "gS", vim.lsp.buf.signature_help, { desc = "[S]ignature Documentation" })
           -- Lesser used LSP functionality
           vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "[G]oto [D]eclaration" })
           vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, { desc = "Type [D]efinition" })
