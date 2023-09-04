@@ -871,6 +871,7 @@ require("lazy").setup({
   {
     "folke/todo-comments.nvim", -- Highlight TODO, NOTE, FIX, WARN, HACK, PERF, and TEST
     dependencies = { "nvim-lua/plenary.nvim" },
+    event = { "BufReadPre", "BufNewFile" },
     config = true,
     keys = {
       { "<leader>st", "<CMD>TodoTelescope<CR>", desc = "[T]odo" },
