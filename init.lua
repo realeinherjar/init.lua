@@ -334,10 +334,10 @@ require("lazy").setup({
       local lsp = require("lspconfig")
       -- Global mappings.
       -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "[D]iagnostics: Goto Previous" })
-      vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "[D]iagnostics: Goto Next" })
+      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous Diagnostics" })
+      vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next Diagnostics" })
       vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "[D]iagnostics: Op[e]n Float" })
-      vim.keymap.set("n", "<leader>k", vim.diagnostic.setloclist, { desc = "[D]iagnostics: Set" })
+      vim.keymap.set("n", "<leader>k", vim.diagnostic.setloclist, { desc = "[D]iagnostics: List" })
       -- Use LspAttach autocommand to only map the following keys
       -- after the language server attaches to the current buffer
       vim.api.nvim_create_autocmd("LspAttach", {
@@ -864,11 +864,19 @@ require("lazy").setup({
     config = true,
   },
   {
-    "j-hui/fidget.nvim",
+    "j-hui/fidget.nvim", -- Status for LSP stuff
     tag = "legacy",
     event = "LspAttach",
-    opts = {
-      -- options
+  },
+  {
+    "folke/todo-comments.nvim", -- Highlight TODO, NOTE, FIX, WARN, HACK, PERF, and TEST
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = true,
+    keys = {
+      { "<leader>st", "<CMD>TodoTelescope<CR>", desc = "[T]odo" },
+      { "<leader>K", "<CMD>TodoLocList<CR>", desc = "Todo: List" },
+      { "<leader>[t", "<CMD>require('todo-comments').jump_prev()<CR>", desc = "Previous Todo" },
+      { "<leader>]t", "<CMD>require('todo-comments').jump_next()<CR>", desc = "Next Todo" },
     },
   },
 })
