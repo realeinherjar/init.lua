@@ -496,6 +496,11 @@ require("lazy").setup({
           { name = "buffer", group_index = 2 },
         }),
       })
+      cmp.setup.filetype({ "markdown", "text", "sql" }, {
+        sources = cmp.config.sources({
+          { name = "buffer", group_index = 2 },
+        }),
+      })
       -- Use buffer source for `/` and `?`
       cmp.setup.cmdline({ "/", "?" }, {
         mapping = cmp.mapping.preset.cmdline(),
