@@ -883,6 +883,28 @@ require("lazy").setup({
       { "<leader>]t", "<CMD>require('todo-comments').jump_next()<CR>", desc = "Next Todo" },
     },
   },
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    keys = {
+      {
+        "s",
+        mode = { "n", "o", "x" },
+        function()
+          require("flash").jump()
+        end,
+        desc = "Flash",
+      },
+      {
+        "r",
+        mode = "o",
+        function()
+          require("flash").remote()
+        end,
+        desc = "Remote Flash",
+      },
+    },
+  },
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
