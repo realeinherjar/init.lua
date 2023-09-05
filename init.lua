@@ -869,6 +869,7 @@ require("lazy").setup({
     "j-hui/fidget.nvim", -- Status for LSP stuff
     tag = "legacy",
     event = "LspAttach",
+    config = true,
   },
   {
     "folke/todo-comments.nvim", -- Highlight TODO, NOTE, FIX, WARN, HACK, PERF, and TEST
