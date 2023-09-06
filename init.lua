@@ -244,7 +244,8 @@ require("lazy").setup({
         desc = "[/] Fuzzily search in current buffer]",
       },
 
-      { "<leader>sf", "<CMD>Telescope find_files<CR>", desc = "[F]iles" },
+      { "<leader>sf", "<CMD>Telescope git_files<CR>", desc = "[F]iles" },
+      { "<leader>sF", "<CMD>Telescope find_files<CR>", desc = "[F]iles All" },
       { "<leader>sh", "<CMD>Telescope help_tags<CR>", desc = "[H]elp" },
       { "<leader>sw", "<CMD>Telescope grep_string<CR>", desc = "Current [W]ord" },
       { "<leader>sg", "<CMD>Telescope live_grep<CR>", desc = "[G]rep" },
