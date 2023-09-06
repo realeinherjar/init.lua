@@ -871,6 +871,22 @@ require("lazy").setup({
     config = true,
   },
   {
+    "lukas-reineke/indent-blankline.nvim", -- Indent guides
+    event = { "BufReadPost", "BufNewFile" },
+    opts = {
+      char = "│",
+      filetype_exclude = {
+        "help",
+        "netrw",
+        "Trouble",
+        "lazy",
+        "notify",
+      },
+      show_trailing_blankline_indent = false,
+      show_current_context = true,
+    },
+  },
+  {
     "j-hui/fidget.nvim", -- Status for LSP stuff
     tag = "legacy",
     event = "LspAttach",
