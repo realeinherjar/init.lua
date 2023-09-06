@@ -491,14 +491,15 @@ require("lazy").setup({
       -- Set configuration for specific filetype.
       cmp.setup.filetype("gitcommit", {
         sources = cmp.config.sources({
-          { name = "git" },
-        }, {
+          { name = "git", group_index = 2 },
           { name = "buffer", group_index = 2 },
+          { name = "copilot", group_index = 2 },
         }),
       })
       cmp.setup.filetype({ "markdown", "text", "sql" }, {
         sources = cmp.config.sources({
           { name = "buffer", group_index = 2 },
+          { name = "copilot", group_index = 2 },
         }),
       })
       -- Use buffer source for `/` and `?`
