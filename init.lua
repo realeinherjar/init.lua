@@ -897,6 +897,7 @@ require("lazy").setup({
     dependencies = { "nvim-lua/plenary.nvim" },
     event = { "BufReadPre", "BufNewFile" },
     config = true,
+    -- stylua: ignore
     keys = {
       { "<leader>st", "<CMD>TodoTelescope<CR>", desc = "[T]odo" },
       { "<leader>K", "<CMD>TodoLocList<CR>", desc = "Todo: List" },
@@ -905,25 +906,15 @@ require("lazy").setup({
     },
   },
   {
-    "folke/flash.nvim",
     event = "VeryLazy",
     keys = {
-      {
-        "s",
-        mode = { "n", "o", "x" },
-        function()
-          require("flash").jump()
-        end,
-        desc = "Flash",
-      },
-      {
-        "r",
-        mode = "o",
-        function()
-          require("flash").remote()
-        end,
-        desc = "Remote Flash",
-      },
+  {
+    "folke/flash.nvim", -- Amazing movements
+    event = "VeryLazy",
+    -- stylua: ignore
+    keys = {
+      { "s", mode = { "n", "o", "x" }, function() require("flash").jump() end, desc = "Flash", },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash", },
     },
   },
 })
