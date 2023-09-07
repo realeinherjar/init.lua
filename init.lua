@@ -250,6 +250,12 @@ require("lazy").setup({
       { "<leader>sw", "<CMD>Telescope grep_string<CR>", desc = "Current [W]ord" },
       { "<leader>sg", "<CMD>Telescope live_grep<CR>", desc = "[G]rep" },
       { "<leader>sd", "<CMD>Telescope diagnostics<CR>", desc = "[D]iagnostics" },
+      { "<leader>sm", "<CMD>Telescope marks<CR>", desc = "[M]arks" },
+      { "<leader>sc", "<CMD>Telescope git_bcommits<CR>", desc = "[C]ommits File" },
+      { "<leader>sC", "<CMD>Telescope git_commits<CR>", desc = "[C]ommits" },
+      { "<leader>ss", "<CMD>Telescope git_status<CR>", desc = "[S]tatus" },
+      { "<leader>sS", "<CMD>Telescope git_stash<CR>", desc = "[S]tash" },
+      { "<leader>sT", "<CMD>Telescope git_stash<CR>", desc = "[T]reesitter" },
     },
     config = function()
       -- See `:help telescope` and `:help telescope.setup()`
@@ -365,9 +371,9 @@ require("lazy").setup({
           )
           vim.keymap.set(
             "n",
-            "<leader>ss",
+            "<leader>sy",
             require("telescope.builtin").lsp_dynamic_workspace_symbols,
-            { desc = "[S]ymbols" }
+            { desc = "S[y]mbols" }
           )
           -- See `:help K` for why this keymap
           vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover Documentation" })
