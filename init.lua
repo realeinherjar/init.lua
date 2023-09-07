@@ -518,6 +518,7 @@ require("lazy").setup({
       lsp.cssls.setup({ capabilities = capabilities }) -- requires vscode-langservers-extracted to be installed
       lsp.jsonls.setup({ capabilities = capabilities }) -- requires vscode-langservers-extracted to be installed
       lsp.eslint.setup({ capabilities = capabilities }) -- requires vscode-langservers-extracted to be installed
+      lsp.rnix.setup({ capabilities = capabilities }) -- requires rnix-lsp to be installed
       lsp.lua_ls.setup({ -- requires lua-language-server to be installed
         capabilities = capabilities,
         settings = {
@@ -608,6 +609,9 @@ require("lazy").setup({
           fish = {
             require("formatter.filetypes.fish").fishindent, -- requires fish to be installed
           },
+          nix = {
+            require("formatter.filetypes.nix").nixfmt, -- requires nixfmt to be installed
+          },
           html = {
             require("formatter.filetypes.html").prettierd, -- requires prettierd to be installed
           },
@@ -634,6 +638,7 @@ require("lazy").setup({
         python = { "ruff" }, -- requires ruff to be installed
         lua = { "luacheck" }, -- requires luacheck to be installed
         sh = { "shellcheck" }, -- requires shellcheck to be installed
+        nix = { "nix" }, -- requires nix to be installed
         markdown = { "markdownlint" }, -- requires markdownlint to be installed
         javascript = { "eslint" }, -- requires eslint to be installed
         javascriptreact = { "eslint" }, -- requires eslint to be installe
@@ -658,6 +663,7 @@ require("lazy").setup({
           "c",
           "css",
           "cpp",
+          "fish",
           "html",
           "javascript",
           "jsdoc",
