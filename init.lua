@@ -1014,6 +1014,18 @@ require("lazy").setup({
       { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
     },
   },
+  {
+    "iamcco/markdown-preview.nvim",
+    ft = "markdown",
+    event = "VeryLazy",
+    cmd = { "MarkdownPreview", "MarkdownPreviewStop" },
+    build = function()
+      vim.fn["mkdp#util#install"]()
+    end,
+    keys = {
+      { "<leader>m", "<CMD>MarkdownPreview<CR>", desc = "[M]arkdown Preview" },
+    },
+  },
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
