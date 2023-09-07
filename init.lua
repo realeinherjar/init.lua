@@ -851,9 +851,9 @@ require("lazy").setup({
     "tpope/vim-fugitive",
     event = "VeryLazy",
     keys = {
-      { "<leader>gi", "<CMD>Git<CR>", desc = "[Gi]t" },
+      { "<leader>gi", "<CMD>Git<CR>", desc = "Fug[i]tive" },
       -- It allows me to easily set the branch I am pushing and any tracking
-      { "<leader>gt", "<CMD>Git push -u origin <CR>", desc = "[G]it Push [T]agging" },
+      { "<leader>gt", "<CMD>Git push -u origin <CR>", desc = "Git Push [T]agging" },
     },
     config = function()
       vim.api.nvim_create_autocmd({ "Filetype" }, {
@@ -888,6 +888,13 @@ require("lazy").setup({
         end,
       })
     end,
+  },
+  {
+    "kdheepak/lazygit.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    keys = { { "<leader>gg", "<CMD>LazyGit<CR>", desc = "Lazy[g]it" } },
   },
   -- Miscellaneous
   "tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
