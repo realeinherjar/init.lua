@@ -552,7 +552,7 @@ require("lazy").setup({
             imports = {
               granularity = {
                 enforce = true,
-                group = "one",
+                group = "crate",
               },
             },
           },
