@@ -343,8 +343,8 @@ require("lazy").setup({
       local lsp = require("lspconfig")
       -- Global mappings.
       -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous Diagnostics" })
-      vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next Diagnostics" })
+      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous [D]iagnostics" })
+      vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next [D]iagnostics" })
       vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "[D]iagnostics: Op[e]n Float" })
       vim.keymap.set("n", "<leader>k", vim.diagnostic.setloclist, { desc = "[D]iagnostics: List" })
       -- Use LspAttach autocommand to only map the following keys
@@ -748,12 +748,22 @@ require("lazy").setup({
             override_generic_sorter = true, -- override the generic sorter
             override_file_sorter = true, -- override the file sorter
             case_mode = "smart_case", -- or "ignore_case" or "respect_case"
-            -- the default case_mode is "smart_case"
           },
         },
       })
       require("telescope").load_extension("fzf")
     end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    event = { "BufReadPost", "BufNewFile" },
+    config = true,
+    keys = {
+      { "[c", function ()
+        require("treesitter-context").go_to_context()
+      end, desc = "Go to [C]ontext" },
+    },
   },
   -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
   {
@@ -795,7 +805,7 @@ require("lazy").setup({
               gs.next_hunk()
             end)
             return "<Ignore>"
-          end, { expr = true, buffer = bufnr, desc = "Next Hunk" })
+          end, { expr = true, buffer = bufnr, desc = "Next [H]unk" })
           vim.keymap.set("n", "[h", function()
             if vim.wo.diff then
               return "[c"
@@ -804,7 +814,7 @@ require("lazy").setup({
               gs.prev_hunk()
             end)
             return "<Ignore>"
-          end, { expr = true, buffer = bufnr, desc = "Previous Hunk" })
+          end, { expr = true, buffer = bufnr, desc = "Previous [H]unk" })
           -- Actions
           vim.keymap.set(
             { "n", "v" },
@@ -961,8 +971,8 @@ require("lazy").setup({
     keys = {
       { "<leader>st", "<CMD>TodoTelescope<CR>", desc = "[T]odo" },
       { "<leader>K", "<CMD>TodoLocList<CR>", desc = "Todo: List" },
-      { "<leader>[t", "<CMD>require('todo-comments').jump_prev()<CR>", desc = "Previous Todo" },
-      { "<leader>]t", "<CMD>require('todo-comments').jump_next()<CR>", desc = "Next Todo" },
+      { "<leader>[t", "<CMD>require('todo-comments').jump_prev()<CR>", desc = "Previous [T]odo" },
+      { "<leader>]t", "<CMD>require('todo-comments').jump_next()<CR>", desc = "Next [T]odo" },
     },
   },
   {
