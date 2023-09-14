@@ -590,7 +590,7 @@ require("lazy").setup({
           sh = { "shfmt", "shellharden" },
           fish = { "fish_indent" },
           nix = { "nixfmt" },
-          markdown = { { "prettierd", "prettier" } }, -- Use a sub-list to run only the first available formatter
+          markdown = { { "prettierd", "prettier" }, "markdownlint" }, -- Use a sub-list to run only the first available formatter
           html = { { "prettierd", "prettier" } },
           css = { { "prettierd", "prettier" } },
           javascript = { { "prettierd", "prettier" } },
@@ -605,6 +605,7 @@ require("lazy").setup({
           return { timeout_ms = 500, lsp_fallback = true }
         end,
       })
+      require("conform.formatters.markdownlint").command = "markdownlint-cli2"
       vim.api.nvim_create_user_command("FormatDisable", function(args)
         if args.bang then
           -- FormatDisable! will disable formatting just for this buffer
