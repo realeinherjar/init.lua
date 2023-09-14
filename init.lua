@@ -386,21 +386,6 @@ require("lazy").setup({
           vim.keymap.set("n", "<leader>cwl", function()
             print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
           end, { desc = "[L]ist Folders" })
-          -- Format
-          vim.keymap.set("n", "<leader>F", function()
-            vim.lsp.buf.format({ async = true })
-          end, { desc = "[F]ormat current buffer with LSP" })
-          vim.keymap.set("n", "<leader>f", "<CMD>Format<CR>", { desc = "[F]ormat current buffer with Formatter" })
-          -- Autoformat on save (LSP)
-          -- vim.api.nvim_create_autocmd("BufWritePre", {
-          --   callback = function()
-          --     vim.lsp.buf.format({ async = false })
-          --   end,
-          -- })
-          -- Autoformat on save (Formatter)
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            command = "FormatWrite",
-          })
         end,
       })
       -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
@@ -594,44 +579,59 @@ require("lazy").setup({
   -- LSP Formatters and Linters
   -- null-ls is archived
   {
-    "mhartington/formatter.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+    "stevearc/conform.nvim",
+    event = "VeryLazy",
     config = function()
-      local formatter = require("formatter")
-      formatter.setup({
-        filetype = {
-          lua = {
-            require("formatter.filetypes.lua").stylua, -- requires stylua to be installed
-          },
-          rust = {
-            require("formatter.filetypes.rust").rustfmt, -- requires rustfmt to be installed
-          },
-          python = {
-            require("formatter.filetypes.python").black, -- requires black to be installed
-          },
-          sh = {
-            require("formatter.filetypes.sh").shfmt, -- requires shfmt to be installed
-          },
-          fish = {
-            require("formatter.filetypes.fish").fishindent, -- requires fish to be installed
-          },
-          nix = {
-            require("formatter.filetypes.nix").nixfmt, -- requires nixfmt to be installed
-          },
-          html = {
-            require("formatter.filetypes.html").prettierd, -- requires prettierd to be installed
-          },
-          css = {
-            require("formatter.filetypes.css").prettierd, -- requires prettierd to be installed
-          },
-          markdown = {
-            require("formatter.filetypes.markdown").prettierd, -- requires prettierd to be installed
-          },
-          ["*"] = {
-            require("formatter.filetypes.any").remove_trailing_whitespace,
-          },
+      require("conform").setup({
+        formatters_by_ft = {
+          lua = { "stylua" },
+          rust = { "rustfmt" },
+          python = { "isort", "black" }, -- Conform will run multiple formatters sequentially
+          sh = { "shfmt", "shellharden" },
+          fish = { "fish_indent" },
+          nix = { "nixfmt" },
+          markdown = { { "prettierd", "prettier" } }, -- Use a sub-list to run only the first available formatter
+          html = { { "prettierd", "prettier" } },
+          css = { { "prettierd", "prettier" } },
+          javascript = { { "prettierd", "prettier" } },
+          typescript = { { "prettierd", "prettier" } },
+          ["*"] = { "trim_whitespace" },
         },
+        format_on_save = function(bufnr)
+          -- Disable with a global or buffer-local variable
+          if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+            return
+          end
+          return { timeout_ms = 500, lsp_fallback = true }
+        end,
       })
+      vim.api.nvim_create_user_command("FormatDisable", function(args)
+        if args.bang then
+          -- FormatDisable! will disable formatting just for this buffer
+          vim.b.disable_autoformat = true
+        else
+          vim.g.disable_autoformat = true
+        end
+      end, {
+        desc = "Disable autoformat-on-save",
+        bang = true,
+      })
+      vim.keymap.set("", "<leader>f", function()
+        require("conform").format({ async = true, lsp_fallback = true })
+      end, { desc = "[F]ormat" })
+      vim.api.nvim_create_user_command("FormatEnable", function()
+        vim.b.disable_autoformat = false
+        vim.g.disable_autoformat = false
+      end, {
+        desc = "Re-enable autoformat-on-save",
+      })
+      vim.keymap.set("n", "<leader>F", function()
+        if vim.b.disable_autoformat or vim.g.disable_autoformat then
+          vim.cmd("FormatEnable")
+        else
+          vim.cmd("FormatDisable")
+        end
+      end, { desc = "Toggle [F]ormat" })
     end,
   },
   {
@@ -760,9 +760,13 @@ require("lazy").setup({
     event = { "BufReadPost", "BufNewFile" },
     config = true,
     keys = {
-      { "[c", function ()
-        require("treesitter-context").go_to_context()
-      end, desc = "Go to [C]ontext" },
+      {
+        "[c",
+        function()
+          require("treesitter-context").go_to_context()
+        end,
+        desc = "Go to [C]ontext",
+      },
     },
   },
   -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
@@ -969,8 +973,8 @@ require("lazy").setup({
     config = true,
     -- stylua: ignore
     keys = {
-      { "<leader>st", "<CMD>TodoTelescope<CR>", desc = "[T]odo" },
-      { "<leader>K", "<CMD>TodoLocList<CR>", desc = "Todo: List" },
+      { "<leader>st", "<CMD>TodoTelescope<CR>",                        desc = "[T]odo" },
+      { "<leader>K",  "<CMD>TodoLocList<CR>",                          desc = "Todo: List" },
       { "<leader>[t", "<CMD>require('todo-comments').jump_prev()<CR>", desc = "Previous [T]odo" },
       { "<leader>]t", "<CMD>require('todo-comments').jump_next()<CR>", desc = "Next [T]odo" },
     },
@@ -1004,13 +1008,23 @@ require("lazy").setup({
     end,
     -- stylua: ignore
     keys = {
-      { "<leader>sn", "<CMD>Telescope noice<CR>", desc = "[N]oice" },
-      { "<leader>nl", function() require("noice").cmd("last") end, desc = "[L]ast Message" },
-      { "<leader>nh", function() require("noice").cmd("history") end, desc = "[H]istory" },
-      { "<leader>na", function() require("noice").cmd("all") end, desc = "[A]ll" },
-      { "<leader>nd", function() require("noice").cmd("dismiss") end, desc = "[D]ismiss All" },
-      { "<C-f>", function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end, silent = true, expr = true, desc = "Scroll [F]orward", mode = {"i", "n", "s"} },
-      { "<C-b>", function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true, expr = true, desc = "Scroll [B]ackward", mode = {"i", "n", "s"}},
+      { "<leader>sn", "<CMD>Telescope noice<CR>",                                                    desc = "[N]oice" },
+      { "<leader>nl", function() require("noice").cmd("last") end,                                   desc =
+      "[L]ast Message" },
+      { "<leader>nh", function() require("noice").cmd("history") end,                                desc = "[H]istory" },
+      { "<leader>na", function() require("noice").cmd("all") end,                                    desc = "[A]ll" },
+      { "<leader>nd", function() require("noice").cmd("dismiss") end,                                desc =
+      "[D]ismiss All" },
+      { "<C-f>",      function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end,  silent = true,
+                                                                                                                               expr = true,
+                                                                                                                                            desc =
+        "Scroll [F]orward",                                                                                                                                           mode = {
+        "i", "n", "s" } },
+      { "<C-b>",      function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true,
+                                                                                                                               expr = true,
+                                                                                                                                            desc =
+        "Scroll [B]ackward",                                                                                                                                          mode = {
+        "i", "n", "s" } },
     },
   },
   {
@@ -1018,10 +1032,10 @@ require("lazy").setup({
     event = "VeryLazy",
     -- stylua: ignore
     keys = {
-      { "s", mode = { "n", "o", "x" }, function() require("flash").jump() end, desc = "Flash" },
+      { "s", mode = { "n", "o", "x" }, function() require("flash").jump() end,              desc = "Flash" },
       -- { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" }, -- conflicts with nvim.surround `S`.
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "r", mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
+      { "R", mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
     },
   },
   {

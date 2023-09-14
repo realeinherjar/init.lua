@@ -13,7 +13,7 @@ Banish those unworthy soydev IDEs to the depths of Helheim!
 - LSPs: `bash-language-server typescript-language-server rust-analyzer
 vscode-langservers-extracted pyright lua-language-server`
 - Linters: `shellcheck markdownlint-cli2 luacheck ruff eslint luacheck`
-- Formatters: `prettierd black shfmt stylua`
+- Formatters: `prettierd isort black shfmt shellharden stylua`
 
 ## Tmux
 
