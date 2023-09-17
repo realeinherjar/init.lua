@@ -78,7 +78,7 @@ return {
     "tpope/vim-fugitive",
     event = "VeryLazy",
     keys = {
-      { "<leader>gi", "<CMD>Git<CR>", desc = "Fug[i]tive" },
+      { "<leader>gi", "<CMD>Git<CR>",                 desc = "Fug[i]tive" },
       -- It allows me to easily set the branch I am pushing and any tracking
       { "<leader>gt", "<CMD>Git push -u origin <CR>", desc = "Git Push [T]agging" },
     },

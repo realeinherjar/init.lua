@@ -4,15 +4,15 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp", -- LSP source for nvim-cmp
-      "hrsh7th/nvim-cmp", -- Autocompletion plugin
-      "hrsh7th/cmp-buffer", -- nvim-cmp source for buffer words
-      "hrsh7th/cmp-path", -- nvim-cmp source for filesystem paths
-      "hrsh7th/cmp-nvim-lua", -- nvim-cmp source for neovim Lua API
+      "hrsh7th/cmp-nvim-lsp",     -- LSP source for nvim-cmp
+      "hrsh7th/nvim-cmp",         -- Autocompletion plugin
+      "hrsh7th/cmp-buffer",       -- nvim-cmp source for buffer words
+      "hrsh7th/cmp-path",         -- nvim-cmp source for filesystem paths
+      "hrsh7th/cmp-nvim-lua",     -- nvim-cmp source for neovim Lua API
       "saadparwaiz1/cmp_luasnip", -- Snippets source for nvim-cmp
-      "L3MON4D3/LuaSnip", -- Snippets plugin
-      "folke/neodev.nvim", -- Neovim development Lua utils
-      "petertriho/cmp-git", -- nvim-cmp source for git
+      "L3MON4D3/LuaSnip",         -- Snippets plugin
+      "folke/neodev.nvim",        -- Neovim development Lua utils
+      "petertriho/cmp-git",       -- nvim-cmp source for git
       -- Copilot
       {
         "zbirenbaum/copilot.lua",
@@ -76,7 +76,7 @@ return {
             "n",
             "<leader>sD",
             require("telescope.builtin").lsp_document_symbols,
-            { desc = "[D]ocument [S]ymbols" }
+            { desc = "[D]ocument [S]symbols" }
           )
           vim.keymap.set(
             "n",
@@ -135,7 +135,7 @@ return {
         end,
         mapping = cmp.mapping.preset.insert({
           ["<C-u>"] = cmp.mapping.scroll_docs(-4), -- Up
-          ["<C-d>"] = cmp.mapping.scroll_docs(4), -- Down
+          ["<C-d>"] = cmp.mapping.scroll_docs(4),  -- Down
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<CR>"] = cmp.mapping.confirm({
             behavior = cmp.ConfirmBehavior.Replace,
@@ -162,11 +162,11 @@ return {
           end, { "i", "s" }),
         }),
         sources = {
-          { name = "copilot", group_index = 2 },
+          { name = "copilot",  group_index = 2 },
           { name = "nvim_lsp", group_index = 2 },
-          { name = "luasnip", group_index = 2 },
+          { name = "luasnip",  group_index = 2 },
           -- { name = "buffer", group_index = 2 },
-          { name = "path", group_index = 2 },
+          { name = "path",     group_index = 2 },
         },
         sorting = { -- copilot_cmp suggestion
           priority_weight = 2,
@@ -192,14 +192,14 @@ return {
       -- Set configuration for specific filetype.
       cmp.setup.filetype("gitcommit", {
         sources = cmp.config.sources({
-          { name = "git", group_index = 2 },
-          { name = "buffer", group_index = 2 },
+          { name = "git",     group_index = 2 },
+          { name = "buffer",  group_index = 2 },
           { name = "copilot", group_index = 2 },
         }),
       })
       cmp.setup.filetype({ "markdown", "text", "sql" }, {
         sources = cmp.config.sources({
-          { name = "buffer", group_index = 2 },
+          { name = "buffer",  group_index = 2 },
           { name = "copilot", group_index = 2 },
         }),
       })
@@ -211,15 +211,15 @@ return {
         },
       })
       -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-      lsp.pyright.setup({ capabilities = capabilities }) -- requires pyright to be installed
+      lsp.pyright.setup({ capabilities = capabilities })  -- requires pyright to be installed
       lsp.tsserver.setup({ capabilities = capabilities }) -- requires typescript-language-server to be installed
-      lsp.bashls.setup({ capabilities = capabilities }) -- requires bash-language-server to be installed
-      lsp.html.setup({ capabilities = capabilities }) -- requires vscode-langservers-extracted to be installed
-      lsp.cssls.setup({ capabilities = capabilities }) -- requires vscode-langservers-extracted to be installed
-      lsp.jsonls.setup({ capabilities = capabilities }) -- requires vscode-langservers-extracted to be installed
-      lsp.eslint.setup({ capabilities = capabilities }) -- requires vscode-langservers-extracted to be installed
-      lsp.rnix.setup({ capabilities = capabilities }) -- requires rnix-lsp to be installed
-      lsp.lua_ls.setup({ -- requires lua-language-server to be installed
+      lsp.bashls.setup({ capabilities = capabilities })   -- requires bash-language-server to be installed
+      lsp.html.setup({ capabilities = capabilities })     -- requires vscode-langservers-extracted to be installed
+      lsp.cssls.setup({ capabilities = capabilities })    -- requires vscode-langservers-extracted to be installed
+      lsp.jsonls.setup({ capabilities = capabilities })   -- requires vscode-langservers-extracted to be installed
+      lsp.eslint.setup({ capabilities = capabilities })   -- requires vscode-langservers-extracted to be installed
+      lsp.rnix.setup({ capabilities = capabilities })     -- requires rnix-lsp to be installed
+      lsp.lua_ls.setup({                                  -- requires lua-language-server to be installed
         capabilities = capabilities,
         settings = {
           Lua = {
@@ -246,7 +246,7 @@ return {
             imports = {
               granularity = {
                 enforce = true,
-                group = "crate",
+                group = "create",
               },
             },
           },
