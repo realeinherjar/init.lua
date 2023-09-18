@@ -1,5 +1,5 @@
+require("config.disable_plugins")
 require("config.options")
 require("config.keymaps")
-require("config.netrw")
 require("config.highlight_yank")
 require("config.restore_cursor")
