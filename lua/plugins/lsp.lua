@@ -11,8 +11,15 @@ return {
       "hrsh7th/cmp-nvim-lua",     -- nvim-cmp source for neovim Lua API
       "saadparwaiz1/cmp_luasnip", -- Snippets source for nvim-cmp
       "L3MON4D3/LuaSnip",         -- Snippets plugin
-      "folke/neodev.nvim",        -- Neovim development Lua utils
-      "petertriho/cmp-git",       -- nvim-cmp source for git
+      {
+        "folke/neodev.nvim",      -- Neovim development Lua utils
+        config = function()
+          require("neodev").setup({
+            library = { plugins = { "neotest" }, types = true },
+          })
+        end,
+      },
+      "petertriho/cmp-git", -- nvim-cmp source for git
       -- Copilot
       {
         "zbirenbaum/copilot.lua",

@@ -15,6 +15,7 @@ return {
         ["<leader>h"] = { name = "+hunks" },
         ["<leader>s"] = { name = "+search" },
         ["<leader>n"] = { name = "+noice" },
+        ["<leader>t"] = { name = "+test" },
       },
     },
     config = function(_, opts)
@@ -71,33 +72,51 @@ return {
           },
         },
         presets = {
-          bottom_search = false, -- use a classic bottom cmdline for search
-          command_palette = true, -- position the cmdline and popupmenu together
+          bottom_search = false,        -- use a classic bottom cmdline for search
+          command_palette = true,       -- position the cmdline and popupmenu together
           long_message_to_split = true, -- long messages will be sent to a split
-          inc_rename = false, -- enables an input dialog for inc-rename.nvim
-          lsp_doc_border = true, -- add a border to hover docs and signature help
+          inc_rename = false,           -- enables an input dialog for inc-rename.nvim
+          lsp_doc_border = true,        -- add a border to hover docs and signature help
         },
       })
     end,
     -- stylua: ignore
     keys = {
-      { "<leader>sn", "<CMD>Telescope noice<CR>",                                                    desc = "[N]oice" },
-      { "<leader>nl", function() require("noice").cmd("last") end,                                   desc =
-      "[L]ast Message" },
-      { "<leader>nh", function() require("noice").cmd("history") end,                                desc = "[H]istory" },
-      { "<leader>na", function() require("noice").cmd("all") end,                                    desc = "[A]ll" },
-      { "<leader>nd", function() require("noice").cmd("dismiss") end,                                desc =
-      "[D]ismiss All" },
-      { "<C-f>",      function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end,  silent = true,
-                                                                                                                               expr = true,
-                                                                                                                                            desc =
-        "Scroll [F]orward",                                                                                                                                           mode = {
-        "i", "n", "s" } },
-      { "<C-b>",      function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true,
-                                                                                                                               expr = true,
-                                                                                                                                            desc =
-        "Scroll [B]ackward",                                                                                                                                          mode = {
-        "i", "n", "s" } },
+      { "<leader>sn", "<CMD>Telescope noice<CR>",                     desc = "[N]oice" },
+      {
+        "<leader>nl",
+        function() require("noice").cmd("last") end,
+        desc =
+        "[L]ast Message"
+      },
+      { "<leader>nh", function() require("noice").cmd("history") end, desc = "[H]istory" },
+      { "<leader>na", function() require("noice").cmd("all") end,     desc = "[A]ll" },
+      {
+        "<leader>nd",
+        function() require("noice").cmd("dismiss") end,
+        desc =
+        "[D]ismiss All"
+      },
+      {
+        "<C-f>",
+        function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end,
+        silent = true,
+        expr = true,
+        desc =
+        "Scroll [F]orward",
+        mode = {
+          "i", "n", "s" }
+      },
+      {
+        "<C-b>",
+        function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end,
+        silent = true,
+        expr = true,
+        desc =
+        "Scroll [B]ackward",
+        mode = {
+          "i", "n", "s" }
+      },
     },
   },
 }
