@@ -53,6 +53,9 @@ return {
         config = true,
       },
     },
+    opts = function(_, opts)
+      opts.inlay_hints.enabled = true
+    end,
     config = function()
       -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
       require("neodev").setup()
