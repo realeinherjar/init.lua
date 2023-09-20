@@ -22,7 +22,7 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
--- better indenting
+-- Better indenting
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 
@@ -49,6 +49,10 @@ vim.keymap.set("n", "<leader>w", "<CMD>w<CR>", { silent = true, desc = "[S]ave F
 -- Easy Quit
 vim.keymap.set("n", "<leader>q", "<CMD>q<CR>", { silent = true, desc = "[Q]uit" })
 vim.keymap.set("n", "<leader>Q", "<CMD>qa!<CR>", { silent = true, desc = "[Q]uit Force All" })
+
+-- Split window
+vim.keymap.set("n", "<leader>-", "<C-W>s", { desc = "Split window below", remap = true })
+vim.keymap.set("n", "<leader>|", "<C-W>v", { desc = "Split window right", remap = true })
 
 -- Global Yank/Paste
 vim.keymap.set(
