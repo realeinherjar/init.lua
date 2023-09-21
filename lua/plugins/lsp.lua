@@ -11,15 +11,8 @@ return {
       "hrsh7th/cmp-nvim-lua",     -- nvim-cmp source for neovim Lua API
       "saadparwaiz1/cmp_luasnip", -- Snippets source for nvim-cmp
       "L3MON4D3/LuaSnip",         -- Snippets plugin
-      {
-        "folke/neodev.nvim",      -- Neovim development Lua utils
-        config = function()
-          require("neodev").setup({
-            library = { plugins = { "neotest" }, types = true },
-          })
-        end,
-      },
-      "petertriho/cmp-git", -- nvim-cmp source for git
+      "folke/neodev.nvim",        -- Neovim development Lua utils
+      "petertriho/cmp-git",       -- nvim-cmp source for git
       -- Copilot
       {
         "zbirenbaum/copilot.lua",
@@ -55,7 +48,9 @@ return {
     },
     config = function()
       -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-      require("neodev").setup()
+      require("neodev").setup({
+        library = { plugins = { "neotest" }, types = true },
+      })
       local lsp = require("lspconfig")
       -- Global mappings.
       -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -268,6 +263,15 @@ return {
             workspace = { checkThirdParty = false },
             telemetry = { enable = false },
             hint = { enable = true },
+            workspace = {
+              checkThirdParty = false,
+            },
+            completion = {
+              callSnippet = "Replace",
+            },
+            diagnostics = {
+              globals = { "vim" },
+            },
           },
         },
       })
