@@ -53,9 +53,6 @@ return {
         config = true,
       },
     },
-    opts = function(_, opts)
-      opts.inlay_hints.enabled = true
-    end,
     config = function()
       -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
       require("neodev").setup()
@@ -105,12 +102,14 @@ return {
           vim.keymap.set("n", "<leader>cwl", function()
             print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
           end, { desc = "[L]ist Folders" })
-          -- Enable inlay hints (depends on neovim 0.10)
-          if vim.lsp.inlay_hint then
-            vim.lsp.buf.inlay_hint(0, true) -- toggle on by default
+          -- Enable inlay hints
+          local client = vim.lsp.get_client_by_id(ev.data.client_id)
+          if client.supports_method("textDocument/inlayHint") then
+            vim.g.inlay_hints_visible = true
+            vim.lsp.inlay_hint(ev.buf, true)
             -- set the keymap to toggle on/off
             vim.keymap.set("n", "<leader>ch", function()
-              vim.lsp.inlay_hint(0, nil)
+              vim.lsp.inlay_hint(ev.buf, nil)
             end, { desc = "Toggle Inlay [H]ints" })
           end
         end,
