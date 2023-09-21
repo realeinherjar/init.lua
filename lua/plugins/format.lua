@@ -49,8 +49,10 @@ return {
     })
     vim.keymap.set("n", "<leader>F", function()
       if vim.b.disable_autoformat or vim.g.disable_autoformat then
+        require("notify")("conform.nvim - autoformat enabled for current buffer")
         vim.cmd("FormatEnable")
       else
+        require("notify")("conform.nvim - autoformat disabled for current buffer")
         vim.cmd("FormatDisable")
       end
     end, { desc = "Toggle [F]ormat" })
