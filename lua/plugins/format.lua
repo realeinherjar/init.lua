@@ -6,15 +6,9 @@ return {
       formatters_by_ft = {
         lua = { "stylua" },
         rust = { "rustfmt" },
-        python = { "isort", "black", "ruff_fix", "ruff_format" }, -- Conform will run multiple formatters sequentially
-        sh = { "shfmt", "shellharden" },
-        fish = { "fish_indent" },
-        nix = { "nixfmt" },
-        markdown = { { "prettierd", "prettier" }, "markdownlint" }, -- Use a sub-list to run only the first available formatter
-        html = { { "prettierd", "prettier" } },
-        css = { { "prettierd", "prettier" } },
-        javascript = { { "prettierd", "prettier" } },
-        typescript = { { "prettierd", "prettier" } },
+        python = { "ruff_fix", "ruff_format" },
+        sh = { "shellharden" },
+        markdown = { "markdownlint" },
         ["*"] = { "codespell" },
         ["_"] = { "trim_whitespace" },
       },

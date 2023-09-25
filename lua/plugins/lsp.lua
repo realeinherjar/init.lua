@@ -213,14 +213,7 @@ return {
         },
       })
       -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-      lsp.pyright.setup({ capabilities = capabilities })  -- requires pyright to be installed
-      lsp.tsserver.setup({ capabilities = capabilities }) -- requires typescript-language-server to be installed
-      lsp.bashls.setup({ capabilities = capabilities })   -- requires bash-language-server to be installed
-      lsp.html.setup({ capabilities = capabilities })     -- requires vscode-langservers-extracted to be installed
-      lsp.cssls.setup({ capabilities = capabilities })    -- requires vscode-langservers-extracted to be installed
-      lsp.jsonls.setup({ capabilities = capabilities })   -- requires vscode-langservers-extracted to be installed
-      lsp.eslint.setup({ capabilities = capabilities })   -- requires vscode-langservers-extracted to be installed
-      lsp.rnix.setup({ capabilities = capabilities })     -- requires rnix-lsp to be installed
+      lsp.pyright.setup({ capabilities = capabilities })  -- requires pyright to be installedd
       lsp.lua_ls.setup({                                  -- requires lua-language-server to be installed
         capabilities = capabilities,
         settings = {

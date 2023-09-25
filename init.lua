@@ -23,6 +23,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Plugins
 -------------------------------------------------------------------------------
 require("lazy").setup("plugins")
+vim.keymap.set("n", "<leader>l", "<CMD>Lazy<cr>", { noremap = true, silent = true, desc = "[L]azy" })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

@@ -10,12 +10,6 @@ Banish those unworthy soydev IDEs to the depths of Helheim!
 ## Dependencies
 
 - Neovim: `neovim fzf ripgrep fd`
-- LSPs: `bash-language-server typescript-language-server rust-analyzer
-vscode-langservers-extracted pyright lua-language-server`
-- Linters: `shellcheck markdownlint-cli2 luacheck ruff eslint luacheck codespell`
-- Formatters: `prettierd isort black shfmt shellharden stylua`
-
-## Tmux
-
-Additinally you can use my tmux config to have a nice status bar.
-They are located in `tmux.conf`.
+- LSPs: `rust-analyzer pyright lua-language-server`
+- Linters: `shellcheck markdownlint-cli2 luacheck ruff luacheck codespell`
+- Formatters: `ruff shellharden stylua`
