@@ -97,6 +97,16 @@ return {
           vim.keymap.set("n", "<leader>cwl", function()
             print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
           end, { desc = "[L]ist Folders" })
+          -- Enable inlay hints
+          local client = vim.lsp.get_client_by_id(ev.data.client_id)
+          if client.supports_method("textDocument/inlayHint") then
+            vim.g.inlay_hints_visible = true
+            vim.lsp.inlay_hint(ev.buf, true)
+            -- set the keymap to toggle on/off
+            vim.keymap.set("n", "<leader>ch", function()
+              vim.lsp.inlay_hint(ev.buf, nil)
+            end, { desc = "Toggle Inlay [H]ints" })
+          end
         end,
       })
       -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
@@ -213,19 +223,46 @@ return {
         },
       })
       -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-      lsp.pyright.setup({ capabilities = capabilities })  -- requires pyright to be installed
-      lsp.tsserver.setup({ capabilities = capabilities }) -- requires typescript-language-server to be installed
-      lsp.bashls.setup({ capabilities = capabilities })   -- requires bash-language-server to be installed
-      lsp.html.setup({ capabilities = capabilities })     -- requires vscode-langservers-extracted to be installed
-      lsp.cssls.setup({ capabilities = capabilities })    -- requires vscode-langservers-extracted to be installed
-      lsp.jsonls.setup({ capabilities = capabilities })   -- requires vscode-langservers-extracted to be installed
-      lsp.eslint.setup({ capabilities = capabilities })   -- requires vscode-langservers-extracted to be installed
-      lsp.rnix.setup({ capabilities = capabilities })     -- requires rnix-lsp to be installed
-      lsp.lua_ls.setup({                                  -- requires lua-language-server to be installed
+      lsp.pyright.setup({ capabilities = capabilities }) -- requires pyright to be installed
+      lsp.tsserver.setup({                               -- requires typescript-language-server to be installed
+        capabilities = capabilities,
+        -- taken from https://github.com/typescript-language-server/typescript-language-server#workspacedidchangeconfiguration
+        javascript = {
+          inlayHints = {
+            includeInlayEnumMemberValueHints = true,
+            includeInlayFunctionLikeReturnTypeHints = true,
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayParameterNameHints = "all",
+            includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+            includeInlayPropertyDeclarationTypeHints = true,
+            includeInlayVariableTypeHints = true,
+          },
+        },
+        typescript = {
+          inlayHints = {
+            includeInlayEnumMemberValueHints = true,
+            includeInlayFunctionLikeReturnTypeHints = true,
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayParameterNameHints = "all",
+            includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+            includeInlayPropertyDeclarationTypeHints = true,
+            includeInlayVariableTypeHints = true,
+          },
+        },
+      })
+      lsp.bashls.setup({ capabilities = capabilities }) -- requires bash-language-server to be installed
+      lsp.html.setup({ capabilities = capabilities })   -- requires vscode-langservers-extracted to be installed
+      lsp.cssls.setup({ capabilities = capabilities })  -- requires vscode-langservers-extracted to be installed
+      lsp.jsonls.setup({ capabilities = capabilities }) -- requires vscode-langservers-extracted to be installed
+      lsp.eslint.setup({ capabilities = capabilities }) -- requires vscode-langservers-extracted to be installed
+      lsp.rnix.setup({ capabilities = capabilities })   -- requires rnix-lsp to be installed
+      lsp.lua_ls.setup({                                -- requires lua-language-server to be installed
         capabilities = capabilities,
         settings = {
           Lua = {
+            workspace = { checkThirdParty = false },
             telemetry = { enable = false },
+            hint = { enable = true },
             workspace = {
               checkThirdParty = false,
             },

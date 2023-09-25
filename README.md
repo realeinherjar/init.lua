@@ -17,5 +17,5 @@ vscode-langservers-extracted pyright lua-language-server`
 
 ## Tmux
 
-Additinally you can use my tmux config to have a nice status bar.
+Additionally you can use my tmux config to have a nice status bar.
 They are located in `tmux.conf`.
